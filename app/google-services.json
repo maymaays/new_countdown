@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "698273451507",
+    "firebase_url": "https://countdown-63eff.firebaseio.com",
+    "project_id": "countdown-63eff",
+    "storage_bucket": "countdown-63eff.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:698273451507:android:33227733b4099fdb",
+        "android_client_info": {
+          "package_name": "com.example.methawee.countdown"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "698273451507-mevv14sle1uaj8dnp5lt8mm0sugs0t2v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.methawee.countdown",
+            "certificate_hash": "12e5e4823d906471107a5ee048cf82dd76a9d08c"
+          }
+        },
+        {
+          "client_id": "698273451507-k7iik42cgk9h7pg28tq347cs316s68c5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCX-S_wCdtADJq4dOqVVhz_teYkOn81uBo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "698273451507-k7iik42cgk9h7pg28tq347cs316s68c5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
