@@ -4,12 +4,13 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
+
 import com.example.methawee.countdown.R;
 import com.example.methawee.countdown.dialog.DatePickerFragment;
 import com.example.methawee.countdown.model.Event;
@@ -41,6 +42,7 @@ public class EventActivity extends AppCompatActivity implements DatePickerFragme
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         events = new ArrayList<Event>();
+        database = FirebaseDatabase.getInstance();
         view = (ListView) findViewById(R.id.listview_events);
         adapter = new EventAdapter(this, events);
         view.setAdapter(adapter);
@@ -74,13 +76,18 @@ public class EventActivity extends AppCompatActivity implements DatePickerFragme
                         .create();
                 dialog.show();
                 return true;
+            case R.id.action_delete_task:
+                DatabaseReference db = FirebaseDatabase.getInstance().getReference().getRoot().child("countdown ♡");
+                db.setValue(null);
+                Toast.makeText(EventActivity.this, "all data has been deleted.",Toast.LENGTH_LONG).show();
+                adapter.notifyDataSetChanged();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
     public void save_event(Date deadline) {
-        database = FirebaseDatabase.getInstance();
         String key = database.getReference("countdown ♡").push().getKey();
         Event event = new Event(title, deadline);
         event.setTitle(title.toString());
@@ -91,7 +98,6 @@ public class EventActivity extends AppCompatActivity implements DatePickerFragme
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 if (databaseError == null) {
-
                 }
             }
         });
@@ -101,12 +107,13 @@ public class EventActivity extends AppCompatActivity implements DatePickerFragme
     public void onFinishDialog(Date date) {
         deadline = date;
         save_event(deadline);
+        Toast.makeText(EventActivity.this, "data has been inserted.",Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        adapter.notifyDataSetChanged();
         database.getReference("countdown ♡").addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
