@@ -43,6 +43,10 @@ public class EventActivity extends AppCompatActivity implements DatePickerFragme
         setContentView(R.layout.activity_main);
         events = new ArrayList<Event>();
         database = FirebaseDatabase.getInstance();
+        setListView(events);
+    }
+
+    public void setListView(ArrayList<Event> events) {
         view = (ListView) findViewById(R.id.listview_events);
         adapter = new EventAdapter(this, events);
         view.setAdapter(adapter);
@@ -113,7 +117,6 @@ public class EventActivity extends AppCompatActivity implements DatePickerFragme
     @Override
     public void onResume() {
         super.onResume();
-        adapter.notifyDataSetChanged();
         database.getReference("countdown ♡").addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
@@ -125,7 +128,7 @@ public class EventActivity extends AppCompatActivity implements DatePickerFragme
                                 events.add(event);
                             }
                         }
-                        adapter.notifyDataSetChanged();
+                        setListView(events);
                     }
 
                     @Override
