@@ -3,6 +3,7 @@ package com.example.methawee.countdown.main;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -59,6 +60,7 @@ public class EventActivity extends AppCompatActivity implements DatePickerFragme
         return super.onCreateOptionsMenu(menu);
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -95,6 +97,7 @@ public class EventActivity extends AppCompatActivity implements DatePickerFragme
         String key = database.getReference("countdown ♡").push().getKey();
         Event event = new Event(title, deadline);
         event.setTitle(title.toString());
+        events.add(event);
         event.setDeadline(deadline);
         Map<String, Object> childUpdates = new HashMap<>();
         childUpdates.put(key, event.toFirebaseObject());
@@ -112,6 +115,7 @@ public class EventActivity extends AppCompatActivity implements DatePickerFragme
         deadline = date;
         save_event(deadline);
         Toast.makeText(EventActivity.this, "data has been inserted.",Toast.LENGTH_LONG).show();
+        setListView(events);
     }
 
     @Override
