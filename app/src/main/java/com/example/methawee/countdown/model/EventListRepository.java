@@ -40,62 +40,62 @@ public class EventListRepository implements EventRepository {
 
     @Override
     public void save_event(String title, Date deadline) {
-        database = FirebaseDatabase.getInstance();
-        String key = database.getReference("countdown ♡").push().getKey();
-        Event event = new Event(title, deadline);
-        event.setTitle(title.toString());
-        event.setDeadline(deadline);
-        Map<String, Object> childUpdates = new HashMap<>();
-        childUpdates.put(key, event.toFirebaseObject());
-        database.getReference("countdown ♡").updateChildren(childUpdates, new DatabaseReference.CompletionListener() {
-            @Override
-            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                if (databaseError == null) {
-                }
-            }
-        });
+//        database = FirebaseDatabase.getInstance();
+//        String key = database.getReference("countdown ♡").push().getKey();
+//        Event event = new Event(title, deadline);
+//        event.setTitle(title.toString());
+//        event.setDeadline(deadline);
+//        Map<String, Object> childUpdates = new HashMap<>();
+//        childUpdates.put(key, event.toFirebaseObject());
+//        database.getReference("countdown ♡").updateChildren(childUpdates, new DatabaseReference.CompletionListener() {
+//            @Override
+//            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+//                if (databaseError == null) {
+//                }
+//            }
+//        });
     }
 
     @Override
     public ArrayList<Event> get() {
-        database = FirebaseDatabase.getInstance();
-        database.getReference("countdown ♡").addListenerForSingleValueEvent(
-                new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot data : dataSnapshot.getChildren()) {
-                            long days = Long.parseLong(String.valueOf(data.child("days_diff").getValue()));
-                            Event event = new Event(String.valueOf(data.child("title").getValue()), days);
-                            if (days > 0) {
-                                events.add(event);
-                            }
-                        }
-                        adapter.notifyDataSetChanged();
-                    }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                }
-        );
+//        database = FirebaseDatabase.getInstance();
+//        database.getReference("countdown ♡").addListenerForSingleValueEvent(
+//                new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(DataSnapshot dataSnapshot) {
+//                        for (DataSnapshot data : dataSnapshot.getChildren()) {
+//                            long days = Long.parseLong(String.valueOf(data.child("days_diff").getValue()));
+//                            Event event = new Event(String.valueOf(data.child("title").getValue()), days);
+//                            if (days > 0) {
+//                                events.add(event);
+//                            }
+//                        }
+//                        adapter.notifyDataSetChanged();
+//                    }
+//                    @Override
+//                    public void onCancelled(DatabaseError databaseError) {
+//
+//                    }
+//                }
+//        );
         return events;
     }
 
     @Override
     public void update(Event event) {
-        database = FirebaseDatabase.getInstance();
-        String key = database.getReference("countdown ♡").push().getKey();
-//        event.setTitle(title.toString());
-//        event.setDeadline(deadline);
-        Map<String, Object> childUpdates = new HashMap<>();
-        childUpdates.put(key, event.toFirebaseObject());
-        database.getReference("countdown ♡").updateChildren(childUpdates, new DatabaseReference.CompletionListener() {
-            @Override
-            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                if (databaseError == null) {
-                }
-            }
-        });
+//        database = FirebaseDatabase.getInstance();
+//        String key = database.getReference("countdown ♡").push().getKey();
+////        event.setTitle(title.toString());
+////        event.setDeadline(deadline);
+//        Map<String, Object> childUpdates = new HashMap<>();
+//        childUpdates.put(key, event.toFirebaseObject());
+//        database.getReference("countdown ♡").updateChildren(childUpdates, new DatabaseReference.CompletionListener() {
+//            @Override
+//            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+//                if (databaseError == null) {
+//                }
+//            }
+//        });
     }
 
     @Override

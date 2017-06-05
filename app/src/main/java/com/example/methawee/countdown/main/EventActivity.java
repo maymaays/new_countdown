@@ -4,16 +4,15 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import com.example.methawee.countdown.R;
 import com.example.methawee.countdown.dialog.DatePickerFragment;
 import com.example.methawee.countdown.model.Event;
-import com.example.methawee.countdown.model.EventRepository;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,12 +33,14 @@ public class EventActivity extends AppCompatActivity implements DatePickerFragme
     private String title;
     private ArrayList<Event> events;
     private FirebaseDatabase database;
+    private Date deadline;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        events = new ArrayList<Event>();
         view = (ListView) findViewById(R.id.listview_events);
         adapter = new EventAdapter(this, events);
         view.setAdapter(adapter);
@@ -78,10 +79,34 @@ public class EventActivity extends AppCompatActivity implements DatePickerFragme
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
+    public void save_event(Date deadline) {
         database = FirebaseDatabase.getInstance();
+        String key = database.getReference("countdown ♡").push().getKey();
+        Event event = new Event(title, deadline);
+        event.setTitle(title.toString());
+        event.setDeadline(deadline);
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put(key, event.toFirebaseObject());
+        database.getReference("countdown ♡").updateChildren(childUpdates, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                if (databaseError == null) {
+
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onFinishDialog(Date date) {
+        deadline = date;
+        save_event(deadline);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
         database.getReference("countdown ♡").addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
@@ -104,26 +129,4 @@ public class EventActivity extends AppCompatActivity implements DatePickerFragme
         );
     }
 
-    public void save_event(Date deadline) {
-        database = FirebaseDatabase.getInstance();
-        String key = database.getReference("countdown ♡").push().getKey();
-        Event event = new Event(title, deadline);
-        event.setTitle(title.toString());
-        event.setDeadline(deadline);
-        Map<String, Object> childUpdates = new HashMap<>();
-        childUpdates.put(key, event.toFirebaseObject());
-        database.getReference("countdown ♡").updateChildren(childUpdates, new DatabaseReference.CompletionListener() {
-            @Override
-            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                if (databaseError == null) {
-
-                }
-            }
-        });
-    }
-
-    @Override
-    public void onFinishDialog(Date date) {
-        save_event(date);
-    }
 }
